@@ -1,5 +1,7 @@
 import bs4
+import xlsxwriter
 import requests   #pip install requests bs4 lxml pandas xlsxwriter ->установка pandas
+
 from bs4 import BeautifulSoup
 
 import pandas as pd
@@ -12,6 +14,7 @@ headers = {
               'application/signed-exchange;v=b3;q=0.9 '
 }
 
+data = [['DATETIME', 'TEAM1', 'LOGO2', 'SCORE', 'TEAM1', 'LOGO2']]
 
 main_url = 'https://cyberscore.live/en/'
 
@@ -28,11 +31,46 @@ for cat in categories:
     for subcat in subcategories:
         matches_page =get_soup(main_url+subcat['href'])
         matches = matches_page.findAll('div',class_='      ')
+        datatime = <div class="dates"><span class="date-time full-date"><time datetime="1711706100000" _msttexthash="629447" _msthash="1361">Вчера</time></span><span class="date-time short-date" _msthidden="1"><time datetime="1711706100000" _msttexthash="137514" _msthidden="1" _msthash="1362">Yesterday</time></span><span class="date-time time medium" _msttexthash="132067" _msthash="1363">в <time datetime="1711706100000" _istranslated="1">12:55</time></span></div>
+        # team1 =
+        # logo1 =
+        # score =
+        # team2 =
+        # logo2 =
+        data.append(['DATETIME', 'TEAM1', 'LOGO2', 'SCORE', 'TEAM1', 'LOGO2'])
+
+with xlsxwriter.workbook('teams.xlsx') as workbook:
+    worksheet = workbook.add_worksheet()
+
+row = col = 0
+worksheet.write_row(row, col, datetime)
+ col +=1
+ worksheet.write_row(row, col, team1)
+ col += 1
+ worksheet.write_row(row, col, logo1)
+ col += 1
+ worksheet.write_row(row, col, score)
+ col += 1
+ worksheet.write_row(row, col, team2)
+ col += 1
+ worksheet.write_row(row, col, logo2)
+ for row_num, info in enumerate(data):
+     worksheet.write_row(row, col, datetime)
+     col +=1
+     worksheet.write_row(row, col, team1)
+     col += 1
+     worksheet.write_row(row, col, logo1)
+     col += 1
+     worksheet.write_row(row, col, score)
+     col += 1
+     worksheet.write_row(row, col, team2)
+     col += 1
+     worksheet.write_row(row, col, logo2)
 
 
-data = [['TEAM', 'MATCHES', 'WINS', 'LOSSES', 'WINRATE', 'LOGO']]
 
 
+workbook.close()
 #заголовок таблицы - считать
 
 #словарь для хранения считанных данных dataframe
